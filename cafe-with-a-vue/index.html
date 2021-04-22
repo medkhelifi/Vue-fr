@@ -9,7 +9,7 @@
 		<title>Cafe with a Vue</title>
 	</head>
 	<body>
-		<div class="app">
+		<div class="app" id="app">
 			<h1>La belle vue</h1>
 			<p class="description">
 				Bienvenue dans notre café la belle vue ! Nous sommes réputés pour notre
@@ -17,20 +17,17 @@
 				ou avec un goûter réconfortant. Mais attention, vous verrez qu'il est
 				difficile de s'arrêter.
 			</p>
-			<div id="app">
-				{{ restaurantName }}
-			</div>
-			<script language="JavaScript">
-				const app = new Vue({
-					el: "#app",
-					data: {
-						restaurantName: "Mon restaurant"
-					}
-				});
-			</script>
 			<footer class="footer">
-				<p>Copyright La belle vue 2020</p>
+				<p>Copyright {{ restaurantName }} 2020</p>
 			</footer>
 		</div>
+		<script language="JavaScript">
+			const app = new Vue({
+				el: "#app",
+				data: {
+					restaurantName: "Mon restaurant"
+				}
+			});
+		</script>
 	</body>
 </html>
