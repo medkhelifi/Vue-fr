@@ -11,30 +11,16 @@
     <section class="menu">
       <h2>Menu</h2>
       <div v-for="item in simpleMenu" :key="item.name" class="menu-item">
-        <img
-            class="menu-item__image"
-            :src="item.image.source"
-            :alt="item.image.alt"
-        />
-        <div>
-          <h3>{{ item.name }}</h3>
-          <p v-if="item.inStock">En stock</p>
-          <p v-else>En rupture de stock</p>
-          <div>
-            <label for="add-item-quantity"
-            >Quantité : {{ item.quantity }}</label
-            >
-            <input
-                v-model.number="item.quantity"
-                id="add-item-quantity"
-                type="number"
-            />
-            <button @click="addToShoppingCart(item.quantity)">
-              Ajouter au panier d'achat
-            </button>
-          </div>
-        </div>
       </div>
+      <MenuItems
+          v-for="item in simpleMenu"
+          :addToShoppingCart="addToShoppingCart"
+          :name="item.name"
+          :image="item.image"
+          :quantity="item.quantity"
+          :inStock="item.inStock"
+          :key="item.name"
+     />
     </section>
 
     <aside class="shopping-cart">
@@ -58,23 +44,107 @@
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld.vue'
+import MenuItems from './components/MenuItems.vue'
 
 export default {
   name: 'app',
+  data() {
+    return {
+    address: "18 avenue du Beurre, Paris, France",
+    email: "hello@cafewithavue.bakery",
+    phone: "01 88 88 88 88",
+    restaurantName: "La belle vue",
+    shoppingCart: 0,
+    simpleMenu: [
+      {
+        name: "Croissant",
+        image: {
+          source: "./images/croissant.jpg",
+          alt: "Un croissant"
+        },
+        inStock: true,
+        quantity: 1
+      },
+      {
+        name: "Baguette de pain",
+        image: {
+          source: "./images/french-baguette.jpeg",
+          alt: "Quatre baguettes de pain"
+        },
+        inStock: true,
+        quantity: 1
+      },
+      {
+        name: "Éclair",
+        image: {
+          source: "./images/eclair.jpg",
+          alt: "Éclair au chocolat"
+        },
+        inStock: false,
+        quantity: 1
+      }
+    ]
+  }
+  },
+  computed: {
+    copyright() {
+      const currentYear = new Date().getFullYear()
+
+      return `Copyright ${this.restaurantName} ${currentYear}`
+    }
+  },
+  methods: {
+    addToShoppingCart(amount) {
+      this.shoppingCart += amount
+    }
+  },
   components: {
-    HelloWorld
+    MenuItems
   }
 }
 </script>
 
 <style lang="scss">
-#app {
+.app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+
+.description {
+  max-width: 960px;
+  font-size: 1.2rem;
+  margin: 0 auto;
+}
+
+.footer {
+  text-align: center;
+  font-style: italic;
+}
+
+.menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.menu-item {
+  display: flex;
+  width: 500px;
+  justify-content: space-between;
+  margin-bottom: 30px;
+}
+
+.menu-item__image {
+  max-width: 300px;
+}
+
+.shopping-cart {
+  position: absolute;
+  right: 30px;
+  top: 0;
 }
 </style>
